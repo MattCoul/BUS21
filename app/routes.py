@@ -17,3 +17,11 @@ def task_display():
     order = request.args.get("order")
     tasks = []
     return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now())
+
+@app.route('/task_creation')
+def task_creation():
+    return render_template('task_creation.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
