@@ -1,0 +1,12 @@
+Flask==3.0.0
+Flask-SQLAlchemy==3.1.1
+Flask-WTF==1.2.1
+Jinja2==3.1.6
+SQLAlchemy==2.0.46
+WTForms==3.2.1
+
+# For Windows users:
+# If your virtual environment is not working please follow the instructions below:
+# 1. create a new virtual environment -> python -m venv venv
+# 2. activate it -> venv\Scripts\activate (or activate.ps1 in powershell)
+# 3. please type 'pip install -r requirements.txt' before you start coding
