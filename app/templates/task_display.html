@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Task Display{% endblock %}
+
+{% block content %}
+<h1>Task Display</h1>
+<form method="GET">
+        Choose Task Type:<select name="task_type" onchange="this.form.submit()">
+            <option value="all_attempts" selected="selected">Show all attempts</option>
+            <option value="correct_attempts"
+                    {% if task_type=="correct_attempts"%}selected{%endif%}>
+                Show correct attempts
+            </option>
+            <option value="incorrect_attempts"
+                    {% if task_type=="incorrect_attempts"%}selected{%endif%}>
+                Show incorrect attempts
+            </option>
+        </select>
+</form>
+<h2>Tasks Sorted</h2>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Module</th>
+        <th>Points</th>
+        <th>Due Date</th>
+    </tr>
+    {% for task in tasks %}
+    <tr>
+        <th></th>
+        <th></th>
+        <th>
+        </th>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
