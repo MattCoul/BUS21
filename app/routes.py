@@ -11,5 +11,7 @@ def index():
 
 def task_display():
     query = Task
-    task_type = request.args.get("task_type")
+    taskType = request.args.get("task_type")
+    order = request.args.get("order")
+
     return render_template('task_display', task_type=task_type, )

@@ -4,15 +4,46 @@
 {% block content %}
 <h1>Task Display</h1>
 <form method="GET">
-        Choose Task Type:<select name="task_type" onchange="this.form.submit()">
-            <option value="all_attempts" selected="selected">Show all attempts</option>
-            <option value="correct_attempts"
-                    {% if task_type=="correct_attempts"%}selected{%endif%}>
-                Show correct attempts
+        Choose Task Type:<select name="taskType" onchange="this.form.submit()">
+            <option value="allTasks" selected="selected">Show all tasks</option>
+            <option value="exam"
+                    {% if task_type=="exam"%}selected{%endif%}>
+                Show exams
             </option>
-            <option value="incorrect_attempts"
-                    {% if task_type=="incorrect_attempts"%}selected{%endif%}>
-                Show incorrect attempts
+            <option value="groupProject"
+                    {% if task_type=="groupProject"%}selected{%endif%}>
+                Show group projects
+            </option>
+            <option value="coursework"
+                            {% if task_type=="coursework"%}selected{%endif%}>
+                        Show coursework tasks
+            </option>
+            <option value="customTasks"
+                            {% if task_type=="customTasks"%}selected{%endif%}>
+                        Show custom tasks
+            </option>
+        </select>
+        Select Display Order:<select name="order" onchange="this.form.submit()">
+            <option value="" selected="selected">No order</option>
+            <option value="name"
+               {% if order=="high"%}selected{% endif %}>
+               By name
+            </option>
+            <option value="type"
+                {% if order=="type"%}selected{% endif %}>
+               By task type
+            </option>
+            <option value="module"
+                {% if order=="type"%}selected{% endif %}>
+               By module
+            </option>
+            <option value="points"
+                {% if order=="points"%}selected{% endif %}>
+               By points
+            </option>
+            <option value="due_date"
+                {% if order=="due_date"%}selected{% endif %}>
+               By due date
             </option>
         </select>
 </form>
@@ -28,10 +59,12 @@
     </tr>
     {% for task in tasks %}
     <tr>
-        <th></th>
-        <th></th>
-        <th>
-        </th>
+        <th>{{ task.name }}</th>
+        <th>{{ task.description }}</th>
+        <th>{{ task.type }}</th>
+        <th>{{ task.module }}</th>
+        <th>{{ task.points }}</th>
+        <th>{{ task.due_date }}</th>
     </tr>
     {% endfor %}
 </table>
