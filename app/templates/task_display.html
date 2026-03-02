@@ -64,7 +64,11 @@
         <th>{{ task.type }}</th>
         <th>{{ task.module }}</th>
         <th>{{ task.points }}</th>
-        <th>{{ task.due_date }}</th>
+        {% if (task.due_date - now).days <= 7 and (task.due_date - now).days >= 0 %}
+            <th><em>{{ task.due_date }}</em></th>
+        {% else %}
+            <th>{{ task.due_date }}</th>
+        {% endif %}
     </tr>
     {% endfor %}
 </table>
