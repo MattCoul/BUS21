@@ -2,11 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    {% if title %}
-        <title>{{ title }} </title>
-    {% else %}
-        <title>Sketchbook Task Organiser</title>
-    {% endif %}
+    <title>{% block title %}Sketchbook Task Organiser{% endblock %}</title>
 </head>
 <body>
     <hr>
@@ -23,7 +19,10 @@
 
 <footer>
     <hr>
-    <p>Sketchbook Task Organiser</p>
+    <p>Sketchbook Task Organiser:
+        <a href="{{ url_for('index') }}">Home</a>,
+        <a href="{{ url_for('task_display') }}">Task Display</a>
+    </p>
 </footer>
 
 </body>

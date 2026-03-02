@@ -4,7 +4,7 @@
 {% block content %}
 <h1>Task Display</h1>
 <form method="GET">
-        Choose Task Type:<select name="taskType" onchange="this.form.submit()">
+        Choose Task Type:<select name="task_type" onchange="this.form.submit()">
             <option value="allTasks" selected="selected">Show all tasks</option>
             <option value="exam"
                     {% if task_type=="exam"%}selected{%endif%}>
@@ -22,11 +22,11 @@
                             {% if task_type=="customTasks"%}selected{%endif%}>
                         Show custom tasks
             </option>
-        </select>
+        </select><br>
         Select Display Order:<select name="order" onchange="this.form.submit()">
             <option value="" selected="selected">No order</option>
             <option value="name"
-               {% if order=="high"%}selected{% endif %}>
+               {% if order=="name"%}selected{% endif %}>
                By name
             </option>
             <option value="type"
@@ -34,7 +34,7 @@
                By task type
             </option>
             <option value="module"
-                {% if order=="type"%}selected{% endif %}>
+                {% if order=="module"%}selected{% endif %}>
                By module
             </option>
             <option value="points"
