@@ -17,13 +17,13 @@ def task_display():
     # Type of tasks display logic
     task_type = request.args.get("task_type")
     if task_type == "exam":
-        query = query.filter(Task.task == "exam")
+        query = query.filter(Task.type == "exam")
     elif task_type == "groupProject":
-        query = query.filter(Task.task == "groupProject")
+        query = query.filter(Task.type == "groupProject")
     elif task_type == "coursework":
-        query = query.filter(Task.task == "coursework")
+        query = query.filter(Task.type == "coursework")
     elif task_type == "customTasks":
-        query = query.filter(Task.task == "customTasks")
+        query = query.filter(Task.type == "customTasks")
 
     # Order of displayed tasks logic
     order = request.args.get("order")
@@ -37,6 +37,11 @@ def task_display():
         query = query.order_by(Task.points.desc())
     elif order == "due_date":
         query = query.order_by(Task.due_date.desc())
+
+    # Name of task filter logic
+    name = request.args.get("name")
+    if name:
+        query = query.filter(Task.name.ilike(name))
 
     # tasks =  query.all() # To be used one task creation set up
     tasks = [] # Dummy until task creation is set up

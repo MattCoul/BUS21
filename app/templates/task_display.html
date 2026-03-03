@@ -45,7 +45,11 @@
                 {% if order=="due_date"%}selected{% endif %}>
                By due date
             </option>
-        </select>
+        </select><br>
+        <label>Task Name:</label>
+        <input type="name" name="name"
+               value="{{ request.args.get('name', '') }}">
+        <button type="submit">Search</button>
 </form>
 <h2>Tasks Sorted</h2>
 <table border="1">
