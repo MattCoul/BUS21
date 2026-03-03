@@ -1,11 +1,47 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>{% block title %}Sketchbook Task Organiser{% endblock %}</title>
+  <title>Sketchbook</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <style>
+
+    .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+    }
+
+    .row.content {height: 450px}
+
+    .sidenav {
+      padding-top: 20px;
+      background-color: #A0CFD3;
+      height: 100%;
+    }
+
+    footer {
+      background-color: #9A7AA0;
+      color: #FFFFFF;
+      padding: 12px;
+    }
+
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+  </style>
 </head>
 <body>
-    <hr>
+
+<hr>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
         <ul>
@@ -15,16 +51,48 @@
         </ul>
         {% endif %}
     {% endwith %}
-    <main>{% block content %}    {% endblock %}</main>
 
-<footer>
-    <hr>
-    <p>Sketchbook Task Organiser:
-        <a href="{{ url_for('index') }}">Home</a>,
-        <a href="{{ url_for('task_display') }}">Task Display</a>,
-        <a href="{{ url_for('login') }}">Login</a>,
-        <a href="{{ url_for('task_creation') }}">Task Creation</a>.
-    </p>
+
+<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="{{ url_for('index') }}">Sketchbook</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+
+<div class="container-fluid text-center">
+  <div class="row content">
+    <div class="col-sm-2 sidenav">
+      <p><a href="{{ url_for('task_display') }}">Task Display</a></p>
+      <p><a href="{{ url_for('task_creation') }}">Task Creation</a></p>
+      <p><a href="#">Modules</a></p>
+    </div>
+
+    <div class="col-sm-10 text-left">
+        <main>{% block content %}
+
+        {% endblock %}</main>
+    </div>
+  </div>
+</div>
+
+
+<footer class="container-fluid text-center">
+  <p>BUS21</p>
 </footer>
 
 </body>
