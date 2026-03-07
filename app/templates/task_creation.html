@@ -2,5 +2,38 @@
 {% block title %}Task Creation{% endblock %}
 
 {% block content %}
-<p>Hello World (task creation)</p>
+    <h1>Here you can add a task.</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.name.label }}<br>
+            {{ form.name }}<br>
+        </p>
+        <p>
+            {{ form.description.label }}<br>
+            {{ form.description }}<br>
+        </p>
+        <p>
+            {{ form.type.label }}<br>
+            {{ form.type }}<br>
+        </p>
+        <p>
+            {{ form.module.label }}<br>
+            {{ form.module }}<br>
+        </p><p>
+            {{ form.points.label }}<br>
+            {{ form.points }}<br>
+        </p>
+        <p>
+            {{ form.due_date.label }}<br>
+            {{ form.due_date }}<br>
+        </p>
+
+        <p> {{ form.submit() }} </p>
+    </form>
+
+        <a href="{{ url_for('task_display') }}">Return to Task Display</a>
+
+
 {% endblock %}

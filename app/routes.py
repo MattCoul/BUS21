@@ -5,6 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
 from app.models import Task
 from datetime import datetime
+from app.forms import TaskForm
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -48,9 +49,30 @@ def task_display():
 
     return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now())
 
-@app.route('/task_creation')
+@app.route('/task_creation', methods=['GET', 'POST'])
 def task_creation():
-    return render_template('task_creation.html')
+    form = TaskForm()
+    if form.validate_on_submit():
+        task = Task(name=form.name.data,
+                    description=form.description.data,
+                    type=form.type.data,
+                    module=form.module.data,
+                    points=form.points.data,
+                    due_date=form.due_date.data,
+                    )
+        try:
+            db.session.add(task)
+            db.session.commit()
+            flash(f"Task successfully added.")
+            return redirect(url_for('task_creation'))
+        except IntegrityError:
+            db.session.rollback()
+            flash(f"This task cannot be created.")
+            return redirect(url_for('task_creation'))
+    else:
+        flash(f"Task not valid.")
+    return render_template('task_creation.html', form=form)
+
 
 @app.route('/login')
 def login():
