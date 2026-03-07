@@ -11,4 +11,4 @@ class Task(db.Model):
     type: so.Mapped[str] = so.mapped_column(sa.String(265), default="Custom")
     module: so.Mapped[str] = so.mapped_column(sa.String(256))
     points: so.Mapped[int] = so.mapped_column(nullable=False)
-    due_date: so.Mapped[str] = so.mapped_column(sa.DATE, nullable=False, default=lambda: datetime.now(timezone.utc))
+    due_date: so.Mapped[datetime] = so.mapped_column(sa.DATE, nullable=False, default=lambda: datetime.now(timezone.utc))
