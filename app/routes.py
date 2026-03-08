@@ -86,3 +86,14 @@ def login():
             flash(f"Login successful for {username} - Welcome")
             return redirect(url_for('login'))
     return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    if 'username' not in session:
+        flash(f'You are already logged out - please login')
+        return redirect(url_for('login'))
+    else:
+        username = session.get('username')
+        session.clear()
+        flash(f'{username} you have been logged out')
+        return redirect(url_for('login'))
