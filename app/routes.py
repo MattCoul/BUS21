@@ -3,7 +3,7 @@ from app import app
 from app import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
-from app.models import Task
+from app.models import Task, User
 from datetime import datetime
 from app.forms import TaskForm, LoginForm
 from werkzeug.security import check_password_hash
