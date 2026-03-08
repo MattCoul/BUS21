@@ -76,6 +76,27 @@ def task_creation():
     return render_template('task_creation.html', form=form)
 
 
+@app.route('/', methods=['GET', 'POST'])
+def register():
+    form = RegisterForm()
+
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data)
+        user = User(username=form.username.data, email=form.email.data, password=hashed_password)
+
+        try:
+            db.session.add(user)
+            db.session.commit()
+        except IntegrityError:
+            db.session.rollback()
+            flash('User already exists!', 'error')
+            return render_template('register.html', form=form)
+
+        flash('You have successfully registered!', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('register.html', form=form)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
