@@ -84,7 +84,7 @@ def login():
         if username:
             session['username'] = username
             flash(f"Login successful for {username} - Welcome")
-            return redirect(url_for('login'))
+            return redirect(url_for('/'))
     return render_template('login.html')
 
 @app.route('/logout')
