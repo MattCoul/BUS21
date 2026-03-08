@@ -2,13 +2,9 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-    <h2>Login</h2>
-     {% if 'username' in session %}
-            <p>You are logged in as {{ session['username'] }}</p>
-     {% else %}
-        <form method="POST">
-            <label>Username</label>
-            <input type="text" name="username"><br>
+    <h2>Please Register here!</h2>
+        <form method="post">
+            {{ form.hidden_tag() }}
 
             <p>
                 {{ form.username.label }}<br>
