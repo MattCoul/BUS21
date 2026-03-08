@@ -2,5 +2,15 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-<p>Hello World (login)</p>
+    <h2>Login</h2>
+     {% if 'username' in session %}
+            <p>You are logged in as {{ session['username'] }}</p>
+     {% else %}
+        <form method="POST">
+            <label>Username</label>
+            <input type="text" name="username"><br>
+
+            <button type="submit">Login</button>
+        </form>
+      {% endif %}
 {% endblock %}
