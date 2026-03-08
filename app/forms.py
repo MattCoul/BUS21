@@ -26,7 +26,7 @@ class TaskForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField("What is your name?", validators=[DataRequired(), Length(max=20)])
-    password = PasswordField("password", validators=[DataRequired(), Length(max=25)])
+    username = StringField("Username?", validators=[DataRequired(), Length(max=20)])
+    password = PasswordField("Password", validators=[DataRequired(), Length(max=25)])
     submit = SubmitField("Sign In")
 
