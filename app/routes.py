@@ -76,8 +76,9 @@ def task_creation():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    if 'username' in session:
-        return render_template('login.html', username=session['username'])
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
 
     if request.method == 'POST' and 'username' not in session:
         username = request.form.get('username')
