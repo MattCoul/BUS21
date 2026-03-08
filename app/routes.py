@@ -76,4 +76,13 @@ def task_creation():
 
 @app.route('/login')
 def login():
+    if 'username' in session:
+        return render_template('login.html', username=session['username'])
+
+    if request.method == 'POST' and 'username' not in session:
+        username = request.form.get('username')
+        if username:
+            session['username'] = username
+            flash(f"Login successful for {username} - Welcome")
+            return redirect(url_for('login'))
     return render_template('login.html')
