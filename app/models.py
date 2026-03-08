@@ -12,3 +12,10 @@ class Task(db.Model):
     module: so.Mapped[str] = so.mapped_column(sa.String(256))
     points: so.Mapped[int] = so.mapped_column(nullable=False)
     due_date: so.Mapped[datetime] = so.mapped_column(sa.DATE, nullable=False, default=lambda: datetime.now(timezone.utc))
+
+#base user db
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(80), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(255), nullable=False)
