@@ -80,11 +80,9 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
 
-    if request.method == 'POST' and 'username' not in session:
-        username = request.form.get('username')
-        if username:
-            session['username'] = username
-            flash(f"Login successful for {username} - Welcome")
+        if user and check_password_hash(user.password, form.password.data):
+            session['user_id'] = user.id
+            flash('You have successfully logged in!', 'success')
             return redirect(url_for('index'))
     return render_template('login.html')
 
