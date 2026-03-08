@@ -10,7 +10,15 @@
             <label>Username</label>
             <input type="text" name="username"><br>
 
-            <button type="submit">Login</button>
+            <p>
+                {{ form.username.label }}<br>
+                {{ form.username }}<br>
+            </p>
+            <p>
+                {{ form.password.label }}<br>
+                {{ form.password }}<br>
+            </p>
+            <p>{{ form.submit() }}</p>
         </form>
 
 <nav>
