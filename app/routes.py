@@ -5,7 +5,9 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
 from app.models import Task
 from datetime import datetime
-from app.forms import TaskForm
+from app.forms import TaskForm, LoginForm
+from werkzeug.security import check_password_hash
+
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
