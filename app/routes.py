@@ -74,7 +74,7 @@ def task_creation():
     return render_template('task_creation.html', form=form)
 
 
-@app.route('/login')
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     if 'username' in session:
         return render_template('login.html', username=session['username'])
