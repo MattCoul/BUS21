@@ -84,7 +84,10 @@ def login():
             session['user_id'] = user.id
             flash('You have successfully logged in!', 'success')
             return redirect(url_for('index'))
-    return render_template('login.html')
+        else:
+            flash('Login Unsuccessful. Please check username and password', 'danger')
+
+    return render_template('login.html', form=form)
 
 @app.route('/logout')
 def logout():
