@@ -48,8 +48,8 @@ def task_display():
     if name:
         query = query.filter(Task.name.ilike(name))
 
-    # tasks =  query.all() # To be used one task creation set up
-    tasks = [] # Dummy until task creation is set up
+    tasks =  query.all() # To be used one task creation set up
+    #tasks = [] # Dummy until task creation is set up
 
     return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now())
 
