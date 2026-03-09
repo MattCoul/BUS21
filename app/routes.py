@@ -8,7 +8,7 @@ from datetime import datetime
 from app.forms import TaskForm, LoginForm
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from BUS21.app.forms import RegisterForm
+from app.forms import RegisterForm
 
 
 @app.route('/', methods=['GET', 'POST'])
