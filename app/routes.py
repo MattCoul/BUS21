@@ -72,7 +72,7 @@ def task_creation():
             db.session.rollback()
             flash(f"This task cannot be created.")
             return redirect(url_for('task_creation'))
-    else:
+    elif request.method == 'POST':
         flash(f"Task not valid.")
     return render_template('task_creation.html', form=form)
 

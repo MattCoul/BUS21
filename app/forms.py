@@ -19,8 +19,9 @@ class TaskForm(FlaskForm):
     points = IntegerField("How many points is this task worth to you?", validators=[DataRequired()])
     due_date = DateField(
         "Due date:",
-        format="%d-%m-%Y",
-        default=date.today
+        format="%Y-%m-%d",
+        default=date.today,
+        validators=[DataRequired()]
     )
     submit = SubmitField("Add task")
 
