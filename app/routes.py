@@ -129,3 +129,25 @@ def logout():
         session.clear()
         flash(f'{username} you have been logged out')
         return redirect(url_for('login'))
+
+@app.route('/view_points')
+def view_points():
+    if "user_id" not in session:
+        flash("Please log in to continue")
+        return redirect(url_for('login'))
+    else:
+        query = Task.query
+        points = query.all()
+        points_total = db.session.query(
+            func.sum(Task.points)
+        ).all()
+        print(points_total)
+    return render_template('view_points.html', points=points, points_total=points_total)
+
+@app.route('/points_goal')
+def points_goal():
+    if "user_id" not in session:
+        flash("Please log in to continue")
+        return redirect(url_for('login'))
+    else:
+        pass
