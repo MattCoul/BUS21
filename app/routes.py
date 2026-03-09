@@ -33,15 +33,15 @@ def task_display():
     # Order of displayed tasks logic
     order = request.args.get("order")
     if order == "name":
-        query = query.order_by(Task.name.desc())
+        query = query.order_by(Task.name.asc())
     elif order == "type":
-        query = query.order_by(Task.type.desc())
+        query = query.order_by(Task.type.asc())
     elif order == "module":
-        query = query.order_by(Task.module.desc())
+        query = query.order_by(Task.module.asc())
     elif order == "points":
         query = query.order_by(Task.points.desc())
     elif order == "due_date":
-        query = query.order_by(Task.due_date.desc())
+        query = query.order_by(Task.due_date.asc())
 
     # Name of task filter logic
     name = request.args.get("name")
