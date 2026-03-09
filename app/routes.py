@@ -17,6 +17,9 @@ def index():
 
 @app.route('/task_display')
 def task_display():
+    if "user_id" not in session:
+        flash("Please log in to continue")
+        return redirect(url_for('login'))
     query = Task.query
 
     # Type of tasks display logic
@@ -54,6 +57,9 @@ def task_display():
 
 @app.route('/task_creation', methods=['GET', 'POST'])
 def task_creation():
+    if "user_id" not in session:
+        flash("Please log in to continue")
+        return redirect(url_for('login'))
     form = TaskForm()
     if form.validate_on_submit():
         task = Task(name=form.name.data,
@@ -77,7 +83,7 @@ def task_creation():
     return render_template('task_creation.html', form=form)
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegisterForm()
 
