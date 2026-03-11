@@ -4,7 +4,8 @@
 {% block content %}
 <h1>Task Display</h1>
 <form method="GET">
-        Choose Task Type:<select name="task_type" onchange="this.form.submit()">
+        <label>Choose Task Type:</label>
+        <select name="task_type" onchange="this.form.submit()">
             <option value="allTasks" selected="selected">Show all tasks</option>
             <option value="exam"
                     {% if task_type=="exam"%}selected{%endif%}>
@@ -23,22 +24,23 @@
                         Show custom tasks
             </option>
         </select><br>
-        Select Display Order:<select name="order" onchange="this.form.submit()">
+        <label>Select Display Order:</label>
+        <select name="order" onchange="this.form.submit()">
             <option value="" selected="selected">No order</option>
             <option value="name"
-               {% if order=="name"%}selected{% endif %}>
+               {% if order=="name" %}selected{% endif %}>
                By name
             </option>
             <option value="type"
-                {% if order=="type"%}selected{% endif %}>
+                {% if order=="type" %}selected{% endif %}>
                By task type
             </option>
             <option value="module"
-                {% if order=="module"%}selected{% endif %}>
+                {% if order=="module" %}selected{% endif %}>
                By module
             </option>
             <option value="points"
-                {% if order=="points"%}selected{% endif %}>
+                {% if order=="points" %}selected{% endif %}>
                By points
             </option>
             <option value="due_date"
@@ -48,8 +50,17 @@
         </select><br>
         <label>Task Name:</label>
         <input type="name" name="name"
-               value="{{ request.args.get('name', '') }}">
-        <button type="submit">Search</button>
+               value="{{ request.args.get('name', '') }}"><br>
+        <label>Show Completed Tasks</label>
+        <select name="show_complete" onchange="this.form.submit()">
+            <option value="False" {% if show_complete=="False"%}selected{% endif %}>
+                Hide Complete
+            </option>
+            <option value="True" {% if show_complete=="True"%}selected{% endif %}>
+                Show Complete
+            </option>
+        </select>
+<!--        <button type="submit">Search</button>-->
 </form>
 <h2>Tasks Sorted</h2>
 <table border="1">
@@ -60,15 +71,17 @@
         <th>Module</th>
         <th>Points</th>
         <th>Due Date</th>
+        <th>Completed</th>
     </tr>
     {% for task in tasks %}
     <tr>
-        <th>{{ task.name }}</th>
-        <th>{{ task.description }}</th>
-        <th>{{ task.type }}</th>
-        <th>{{ task.module }}</th>
-        <th>{{ task.points }}</th>
-        <th>{{ task.due_date }}</th>
+        <td>{{ task.name }}</td>
+        <td>{{ task.description }}</td>
+        <td>{{ task.type }}</td>
+        <td>{{ task.module }}</td>
+        <td>{{ task.points }}</td>
+        <td>{{ task.due_date }}</td>
+        <td>{{ task.completed }}</td>
     </tr>
     {% endfor %}
 </table>
