@@ -15,11 +15,12 @@ from app.forms import RegisterForm
 def index():
     return render_template('index.html')
 
-@app.route('/task_display')
+@app.route('/task_display', methods=['GET', 'POST'])
 def task_display():
     if "user_id" not in session:
         flash("Please log in to continue")
         return redirect(url_for('login'))
+
     query = Task.query
 
     # Type of tasks display logic
@@ -46,6 +47,11 @@ def task_display():
     elif order == "due_date":
         query = query.order_by(Task.due_date.asc())
 
+    #Show or Hide Completed tasks logic
+    show_complete = request.args.get("show_complete")
+    if show_complete == "False":
+        query = query.filter(Task.completed == False)
+
     # Name of task filter logic
     name = request.args.get("name")
     if name:
@@ -53,7 +59,7 @@ def task_display():
 
     tasks =  query.all() # filter tasks as required
 
-    return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now())
+    return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now(), show_complete=show_complete)
 
 @app.route('/task_creation', methods=['GET', 'POST'])
 def task_creation():
@@ -68,6 +74,7 @@ def task_creation():
                     module=form.module.data,
                     points=form.points.data,
                     due_date=form.due_date.data,
+                    completed=False,
                     )
         try:
             db.session.add(task)
