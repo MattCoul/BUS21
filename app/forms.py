@@ -1,7 +1,7 @@
 import datetime
 from datetime import date
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, DateField, SelectField, IntegerField, PasswordField
+from wtforms import StringField, SubmitField, DateField, SelectField, IntegerField, PasswordField, BooleanField, HiddenField
 from wtforms.validators import DataRequired, Length
 
 class TaskForm(FlaskForm):
@@ -36,5 +36,3 @@ class RegisterForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Length(max=100)])
     password = PasswordField("Password", validators=[DataRequired(), Length(max=100)])
     submit = SubmitField("Register")
-
-
