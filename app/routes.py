@@ -11,7 +11,7 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app.forms import RegisterForm
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
     return render_template('index.html')
 
@@ -51,6 +51,8 @@ def task_display():
     show_complete = request.args.get("show_complete")
     if show_complete == "False":
         query = query.filter(Task.completed == False)
+    elif show_complete == "Only":
+        query = query.filter(Task.completed == True)
 
     # Name of task filter logic
     name = request.args.get("name")
@@ -58,6 +60,16 @@ def task_display():
         query = query.filter(Task.name.ilike(name))
 
     tasks =  query.all() # filter tasks as required
+
+    if request.method == "POST":
+        task_id = request.form.get("task_completed")
+        task = Task.query.get(task_id)
+        if task:
+            task.completed = not task.completed
+            db.session.commit()
+        else:
+            flash("error")
+        return redirect(url_for("task_display"))
 
     return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now(), show_complete=show_complete)
 

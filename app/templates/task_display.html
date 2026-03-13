@@ -4,63 +4,65 @@
 {% block content %}
 <h1>Task Display</h1>
 <form method="GET">
-        <label>Choose Task Type:</label>
-        <select name="task_type" onchange="this.form.submit()">
-            <option value="allTasks" selected="selected">Show all tasks</option>
-            <option value="exam"
-                    {% if task_type=="exam"%}selected{%endif%}>
-                Show exams
-            </option>
-            <option value="groupProject"
-                    {% if task_type=="groupProject"%}selected{%endif%}>
-                Show group projects
-            </option>
-            <option value="coursework"
-                            {% if task_type=="coursework"%}selected{%endif%}>
-                        Show coursework tasks
-            </option>
-            <option value="customTasks"
-                            {% if task_type=="customTasks"%}selected{%endif%}>
-                        Show custom tasks
-            </option>
-        </select><br>
-        <label>Select Display Order:</label>
-        <select name="order" onchange="this.form.submit()">
-            <option value="" selected="selected">No order</option>
-            <option value="name"
-               {% if order=="name" %}selected{% endif %}>
-               By name
-            </option>
-            <option value="type"
-                {% if order=="type" %}selected{% endif %}>
-               By task type
-            </option>
-            <option value="module"
-                {% if order=="module" %}selected{% endif %}>
-               By module
-            </option>
-            <option value="points"
-                {% if order=="points" %}selected{% endif %}>
-               By points
-            </option>
-            <option value="due_date"
-                {% if order=="due_date"%}selected{% endif %}>
-               By due date
-            </option>
-        </select><br>
-        <label>Task Name:</label>
-        <input type="name" name="name"
-               value="{{ request.args.get('name', '') }}"><br>
-        <label>Show Completed Tasks</label>
-        <select name="show_complete" onchange="this.form.submit()">
-            <option value="False" {% if show_complete=="False"%}selected{% endif %}>
-                Hide Complete
-            </option>
-            <option value="True" {% if show_complete=="True"%}selected{% endif %}>
-                Show Complete
-            </option>
-        </select>
-<!--        <button type="submit">Search</button>-->
+    <label>Choose Task Type:</label>
+    <select name="task_type" onchange="this.form.submit()">
+        <option value="allTasks" selected="selected">Show all tasks</option>
+        <option value="exam"
+                {% if task_type=="exam" %} selected {% endif %}>
+            Show exams
+        </option>
+        <option value="groupProject"
+                {% if task_type=="groupProject" %} selected {% endif %}>
+            Show group projects
+        </option>
+        <option value="coursework"
+                {% if task_type=="coursework" %} selected {% endif %}>
+            Show coursework tasks
+        </option>
+        <option value="customTasks"
+                {% if task_type=="customTasks" %} selected {% endif %}>
+            Show custom tasks
+        </option>
+    </select><br>
+    <label>Select Display Order:</label>
+    <select name="order" onchange="this.form.submit()">
+        <option value="" selected="selected">No order</option>
+        <option value="name"
+                {% if order=="name" %} selected {% endif %}>
+            By name
+        </option>
+        <option value="type"
+                {% if order=="type" %} selected {% endif %}>
+            By task type
+        </option>
+        <option value="module"
+                {% if order=="module" %} selected {% endif %}>
+            By module
+        </option>
+        <option value="points"
+                {% if order=="points" %} selected {% endif %}>
+            By points
+        </option>
+        <option value="due_date"
+                {% if order=="due_date" %} selected {% endif %}>
+            By due date
+        </option>
+    </select><br>
+    <label>Task Name:</label>
+    <input type="name" name="name"
+           value="{{ request.args.get('name', '') }}"><br>
+    <label>Show Completed Tasks</label>
+    <select name="show_complete" onchange="this.form.submit()">
+        <option value="False" {% if show_complete=="False" %} selected {% endif %}>
+            Hide Complete
+        </option>
+        <option value="Only" {% if show_complete=="Only" %} selected {% endif %}>
+            Show Complete
+        </option>
+        <option value="True" {% if show_complete=="True" %} selected {% endif %}>
+            Show All
+        </option>
+    </select>
 </form>
 <h2>Tasks Sorted</h2>
 <table border="1">
@@ -82,6 +84,17 @@
         <td>{{ task.points }}</td>
         <td>{{ task.due_date }}</td>
         <td>{{ task.completed }}</td>
+        <td>
+            <form method="POST">
+                <button name="task_completed" value="{{ task.id }}" type="submit">
+                    {% if not task.completed %}
+                        Mark as Done
+                    {% else %}
+                        Mark Unfinished
+                    {% endif %}
+                </button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
 </table>
