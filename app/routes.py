@@ -140,7 +140,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    if 'username' not in session:
+    if 'user_id' not in session:
         flash(f'You are already logged out - please login')
         return redirect(url_for('login'))
     else:
