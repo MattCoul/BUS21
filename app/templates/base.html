@@ -68,9 +68,9 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         {% if session.user_id %}
-            <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li><a href="{{ url_for('logout') }}" style="color:white;"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         {% else %}
-            <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="{{ url_for('login') }}" style="color:white;"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         {% endif %}
       </ul>
     </div>
