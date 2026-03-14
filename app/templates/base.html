@@ -22,11 +22,12 @@
     a:visited {color:#9A7AA0;text-decoration:none;}
     a:hover {text-decoration:underline;}
 
-    a.navbar-brand:link{color: white;}
-    a.navbar-brand:visited{color: white;}
-    a.navbar-brand:hover{text-decoration:underline;}
 
-    .row.content {height: 450px}
+    a.navbar-brand:link{color: white; font-size:230%;}
+    a.navbar-brand:visited{color: white; font-size:230%;}
+    a.navbar-brand:hover{text-decoration:underline; font-size:230%;}
+
+    .row.content {height: 512px}
 
     .sidenav {
       padding-top: 20px;
@@ -51,17 +52,6 @@
 </head>
 <body>
 
-<hr>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    {% endwith %}
-
 
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
@@ -77,7 +67,11 @@
       <ul class="nav navbar-nav">
       </ul>
       <ul class="nav navbar-nav navbar-right">
-          <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% if session.user_id %}
+            <li><a href="{{ url_for('logout') }}"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        {% else %}
+            <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -89,11 +83,21 @@
     <div class="col-sm-2 sidenav">
       <p><a href="{{ url_for('task_display') }}">Task Display</a></p>
       <p><a href="{{ url_for('task_creation') }}">Task Creation</a></p>
-        <p><a href="{{ url_for('view_points') }}">View Points</a></p>
+      <p><a href="{{ url_for('view_points') }}">View Points</a></p>
       <p><a href="#">Modules</a></p>
     </div>
 
     <div class="col-sm-10 text-left">
+        <hr>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
         <main>{% block content %}
 
         {% endblock %}</main>
