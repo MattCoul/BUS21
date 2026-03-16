@@ -187,7 +187,7 @@ def deleting_task(task_id):
     db.session.delete(task)
     db.session.commit()
     flash('Task deleted!', 'success')
-    return redirect(url_for('index'))
+    return redirect(url_for('task_display'))
 
 
 @app.route('/updating/<int:task_id>', methods=['GET', 'POST'])
@@ -199,6 +199,6 @@ def updating_task(task_id):
         form.populate_obj(task)
         db.session.commit()
         flash('Task updated!', 'success')
-        return redirect(url_for('index'))
+        return redirect(url_for('task_display'))
 
     return render_template('task_updating.html', form=form, task=task)
