@@ -171,6 +171,16 @@ def points_goal():
     else:
         pass
 
+@app.route('/modules')
+def modules():
+    modules_list = ['SWW1', 'SWW2', 'BUS', 'AIML', 'CS', 'DSAD']
+    return render_template('modules.html', modules_list = modules_list)
+
+@app.route('/module_add/<module>')
+def module_add(module):
+    return render_template('module_add.html', module=module)
+  
+  
 @app.route('/deleting/<int:task_id>', methods=['GET', 'POST'])
 def deleting_task(task_id):
     task = Task.query.get_or_404(task_id)

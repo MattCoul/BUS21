@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block title %}Module Choice{% endblock %}
+
+{% block content %}
+    <h1>Choose Modules</h1>
+
+<p>
+    <table border="1">
+    <tr>
+        <th>Module</th>
+        <th>Add to your tasks</th>
+    </tr>
+    {% for module in modules_list %}
+    <tr>
+        <th>{{ module }}</th>
+        <th><a href="{{ url_for('module_add', module=module) }}">Add Tasks</a></th>
+    </tr>
+    {% endfor %}
+    </table>
+
+    <a href="{{ url_for('task_display') }}">Return to Task Display</a>
+</p>
+{% endblock %}
