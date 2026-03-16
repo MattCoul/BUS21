@@ -95,6 +95,17 @@
                 </button>
             </form>
         </td>
+        <td>
+        <a href="{{ url_for('deleting_task', task_id=task.id) }}">
+            Delete Task
+        </a>
+        </td>
+
+        <td>
+        <a href="{{ url_for('updating_task', task_id=task.id) }}">
+            Update Task
+        </a>
+        </td>
     </tr>
     {% endfor %}
 </table>
