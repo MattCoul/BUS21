@@ -16,13 +16,14 @@ class TaskForm(FlaskForm):
         validators=[DataRequired()]
     )
     module = SelectField(
-        "Select the task type:",
+        "Select the task module:",
         choices = [("SWW1", "SWW1"),
-                   ("SWW2", "Group SWW2"),
+                   ("SWW2", "SWW2"),
                    ("BUS", "BUS"),
                    ("AIML", "AIML"),
                    ("CS", "CS"),
-                   ("DSAD", "DSAD")],
+                   ("DSAD", "DSAD"),
+                   ("other", "Other")],
         validators=[DataRequired()]
     )
     points = IntegerField("How many points is this task worth to you?", validators=[DataRequired()])
