@@ -170,3 +170,12 @@ def points_goal():
         return redirect(url_for('login'))
     else:
         pass
+
+@app.route('/modules')
+def modules():
+    modules_list = ['SWW1', 'SWW2', 'BUS', 'AIML', 'CS', 'DSAD']
+    return render_template('modules.html', modules_list = modules_list)
+
+@app.route('/module_add/<module>')
+def module_add(module):
+    return render_template('module_add.html', module=module)
