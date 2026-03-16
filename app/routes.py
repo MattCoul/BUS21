@@ -160,7 +160,7 @@ def view_points():
         points_total = db.session.query(
             func.sum(Task.points)
         ).all()
-        print(points_total)
+        points_total = points_total[0][0]
     return render_template('view_points.html', points=points, points_total=points_total)
 
 @app.route('/points_goal')
