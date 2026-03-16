@@ -11,15 +11,16 @@ from werkzeug.security import check_password_hash, generate_password_hash
 from app.forms import RegisterForm
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/task_display')
+@app.route('/task_display', methods=['GET', 'POST'])
 def task_display():
     if "user_id" not in session:
         flash("Please log in to continue")
         return redirect(url_for('login'))
+
     query = Task.query
 
     # Type of tasks display logic
@@ -46,6 +47,13 @@ def task_display():
     elif order == "due_date":
         query = query.order_by(Task.due_date.asc())
 
+    #Show or Hide Completed tasks logic
+    show_complete = request.args.get("show_complete")
+    if show_complete == "False":
+        query = query.filter(Task.completed == False)
+    elif show_complete == "Only":
+        query = query.filter(Task.completed == True)
+
     # Name of task filter logic
     name = request.args.get("name")
     if name:
@@ -53,7 +61,17 @@ def task_display():
 
     tasks =  query.all() # filter tasks as required
 
-    return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now())
+    if request.method == "POST":
+        task_id = request.form.get("task_completed")
+        task = Task.query.get(task_id)
+        if task:
+            task.completed = not task.completed
+            db.session.commit()
+        else:
+            flash("error")
+        return redirect(url_for("task_display"))
+
+    return render_template('task_display.html', task_type=task_type, order=order, tasks=tasks, now=datetime.now(), show_complete=show_complete)
 
 @app.route('/task_creation', methods=['GET', 'POST'])
 def task_creation():
@@ -68,6 +86,7 @@ def task_creation():
                     module=form.module.data,
                     points=form.points.data,
                     due_date=form.due_date.data,
+                    completed=False,
                     )
         try:
             db.session.add(task)
@@ -121,7 +140,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    if 'username' not in session:
+    if 'user_id' not in session:
         flash(f'You are already logged out - please login')
         return redirect(url_for('login'))
     else:
@@ -129,3 +148,25 @@ def logout():
         session.clear()
         flash(f'{username} you have been logged out')
         return redirect(url_for('login'))
+
+@app.route('/view_points')
+def view_points():
+    if "user_id" not in session:
+        flash("Please log in to continue")
+        return redirect(url_for('login'))
+    else:
+        query = Task.query
+        points = query.all()
+        points_total = db.session.query(
+            func.sum(Task.points)
+        ).all()
+        print(points_total)
+    return render_template('view_points.html', points=points, points_total=points_total)
+
+@app.route('/points_goal')
+def points_goal():
+    if "user_id" not in session:
+        flash("Please log in to continue")
+        return redirect(url_for('login'))
+    else:
+        pass

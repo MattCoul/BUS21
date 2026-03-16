@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Points Display{% endblock %}
+
+{% block content %}
+    <h1>View Points</h1>
+
+    <p> You have earned {{ points_total }} points! </p>
+
+
+    <a href="{{ url_for('task_display') }}">Return to Task Display</a>
+
+{% endblock %}

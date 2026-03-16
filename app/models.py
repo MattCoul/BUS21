@@ -12,6 +12,7 @@ class Task(db.Model):
     module: so.Mapped[str] = so.mapped_column(sa.String(256))
     points: so.Mapped[int] = so.mapped_column(nullable=False)
     due_date: so.Mapped[datetime] = so.mapped_column(sa.DATE, nullable=False, default=lambda: datetime.now(timezone.utc))
+    completed: so.Mapped[bool] = so.mapped_column(default=False)
 
 #base user db
 class User(db.Model):

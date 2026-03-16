@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,30 +13,34 @@
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
-      border-color: #9A7AA0;
-      background-color: #9A7AA0;
+      border-color: #3B2B3E;
+      background-color: #3B2B3E;
+      padding: 5px;
     }
 
-    a:link {color:#9A7AA0;text-decoration:none;}
-    a:visited {color:#9A7AA0;text-decoration:none;}
+    a:link {color:#CDCDCD;text-decoration:none;}
+    a:visited {color:#CDCDCD;text-decoration:none;}
     a:hover {text-decoration:underline;}
 
+    a.navbar-brand:link{color: #CDCDCD;}
+    a.navbar-brand:visited{color: #CDCDCD;}
+    a.navbar-brand:hover{text-decoration:underline;}
 
-    a.navbar-brand:link{color: white; font-size:230%;}
-    a.navbar-brand:visited{color: white; font-size:230%;}
-    a.navbar-brand:hover{text-decoration:underline; font-size:230%;}
-
-    .row.content {height: 512px}
+    .row.content {
+      height: 450px;
+      background-color:#1F1F1F;
+      color:#CDCDCD
+    }
 
     .sidenav {
       padding-top: 20px;
-      background-color: #A0CFD3;
+      background-color: #1d3d3f;
       height: 100%;
     }
 
     footer {
-      background-color: #9A7AA0;
-      color: #FFFFFF;
+      background-color: #3B2B3E;
+      color: #CDCDCD;
       padding: 12px;
     }
 
@@ -67,11 +70,7 @@
       <ul class="nav navbar-nav">
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        {% if session.user_id %}
-            <li><a href="{{ url_for('logout') }}" style="color:white;"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        {% else %}
-            <li><a href="{{ url_for('login') }}" style="color:white;"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        {% endif %}
+        <li><a href="{{ url_for('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
       </ul>
     </div>
   </div>
@@ -83,21 +82,11 @@
     <div class="col-sm-2 sidenav">
       <p><a href="{{ url_for('task_display') }}">Task Display</a></p>
       <p><a href="{{ url_for('task_creation') }}">Task Creation</a></p>
-      <p><a href="{{ url_for('view_points') }}">View Points</a></p>
+        <p><a href="{{ url_for('view_points') }}">View Points</a></p>
       <p><a href="#">Modules</a></p>
     </div>
 
     <div class="col-sm-10 text-left">
-        <hr>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    {% endwith %}
         <main>{% block content %}
 
         {% endblock %}</main>
