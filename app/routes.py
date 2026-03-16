@@ -179,3 +179,26 @@ def modules():
 @app.route('/module_add/<module>')
 def module_add(module):
     return render_template('module_add.html', module=module)
+  
+  
+@app.route('/deleting/<int:task_id>', methods=['GET', 'POST'])
+def deleting_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    flash('Task deleted!', 'success')
+    return redirect(url_for('index'))
+
+
+@app.route('/updating/<int:task_id>', methods=['GET', 'POST'])
+def updating_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    form = TaskForm(obj=task)
+
+    if form.validate_on_submit():
+        form.populate_obj(task)
+        db.session.commit()
+        flash('Task updated!', 'success')
+        return redirect(url_for('index'))
+
+    return render_template('task_updating.html', form=form, task=task)
