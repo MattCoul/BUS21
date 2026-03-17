@@ -202,3 +202,13 @@ def updating_task(task_id):
         return redirect(url_for('task_display'))
 
     return render_template('task_updating.html', form=form, task=task)
+
+@app.route("/toggle-theme")
+def toggle_theme():
+    current_theme = session.get("theme")
+    session["original_url"] = request.base_url
+    if current_theme == "dark":
+        session["theme"] = "light"
+    else:
+        session["theme"] = "dark"
+    return redirect(url_for("index"))
