@@ -65,7 +65,7 @@
     </select>
 </form>
 <h2>Tasks Sorted</h2>
-<table border="1">
+<table>
     <tr>
         <th>Name</th>
         <th>Description</th>
@@ -86,7 +86,7 @@
         <td>{{ task.completed }}</td>
         <td>
             <form method="POST">
-                <button name="task_completed" value="{{ task.id }}" type="submit">
+                <button name="task_completed" value="{{ task.id }}" type="submit" class="button">
                     {% if not task.completed %}
                         Mark as Done
                     {% else %}

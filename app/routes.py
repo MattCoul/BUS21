@@ -206,9 +206,8 @@ def updating_task(task_id):
 @app.route("/toggle-theme")
 def toggle_theme():
     current_theme = session.get("theme")
-    session["original_url"] = request.base_url
     if current_theme == "dark":
         session["theme"] = "light"
     else:
         session["theme"] = "dark"
-    return redirect(url_for("index"))
+    return redirect(request.referrer)
