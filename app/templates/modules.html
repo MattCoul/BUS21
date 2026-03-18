@@ -5,19 +5,19 @@
     <h1>Choose Modules</h1>
 
 <p>
-    <table border="1">
+    <table>
     <tr>
         <th>Module</th>
         <th>Add to your tasks</th>
     </tr>
     {% for module in modules_list %}
     <tr>
-        <th>{{ module }}</th>
-        <th><a href="{{ url_for('module_add', module=module) }}">Add Tasks</a></th>
+        <td>{{ module }}</td>
+        <td><a href="{{ url_for('module_add', module=module) }}">Add Tasks</a></td>
     </tr>
     {% endfor %}
     </table>
-
+<br>
     <a href="{{ url_for('task_display') }}">Return to Task Display</a>
 </p>
 {% endblock %}
