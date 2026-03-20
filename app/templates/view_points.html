@@ -2,10 +2,18 @@
 {% block title %}Points Display{% endblock %}
 
 {% block content %}
-    <h1>View Points</h1>
+    <h1>Your Points</h1>
 
     <p> You have earned {{ points_total }} points! </p>
 
+    <br>
+    <br>
+    {% if points_goal %}
+    <p>Your goal for this term is {{ points_goal }} points.</p>
+    {% endif %}
+    <a href="{{ url_for('points_goal') }}">Click here to set a new points goal.</a>
+    <br>
+    <br>
 
     <a href="{{ url_for('task_display') }}">Return to Task Display</a>
 
