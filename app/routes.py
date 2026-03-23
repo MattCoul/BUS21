@@ -3,9 +3,9 @@ from app import app
 from app import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
-from app.models import Task, User
+from app.models import Task, User, Module
 from datetime import datetime
-from app.forms import TaskForm, LoginForm, PointsForm
+from app.forms import create_task_form, LoginForm, PointsForm
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.forms import RegisterForm
@@ -41,7 +41,7 @@ def task_display():
     elif order == "type":
         query = query.order_by(Task.type.asc())
     elif order == "module":
-        query = query.order_by(Task.module.asc())
+        query = query.order_by(Task.task_module.module_name.asc())
     elif order == "points":
         query = query.order_by(Task.points.desc())
     elif order == "due_date":
@@ -60,7 +60,6 @@ def task_display():
         query = query.filter(Task.name.ilike(name))
 
     tasks =  query.all() # filter tasks as required
-
     if request.method == "POST":
         task_id = request.form.get("task_completed")
         task = Task.query.get(task_id)
@@ -78,12 +77,19 @@ def task_creation():
     if "user_id" not in session:
         flash("Please log in to continue")
         return redirect(url_for('login'))
-    form = TaskForm()
+    all_modules = Module.query.all()
+    modules_list = []
+    print(all_modules)
+    for m in all_modules:
+        modules_list.append((m.module_name, m.module_name))
+    form = create_task_form(modules_list=modules_list)
     if form.validate_on_submit():
+        module_name = form.module.data
+        module = Module.query.filter_by(module_name=module_name).first_or_404()
         task = Task(name=form.name.data,
                     description=form.description.data,
                     type=form.type.data,
-                    module=form.module.data,
+                    module_id=module.id,
                     points=form.points.data,
                     due_date=form.due_date.data,
                     completed=False,
@@ -172,7 +178,6 @@ def points_goal(user_id):
         flash("Please log in to continue")
         return redirect(url_for('login'))
     else:
-<<<<<<< HEAD
         user = User.query.get_or_404(user_id)
         form = PointsForm(obj=user)
 
@@ -187,12 +192,14 @@ def points_goal(user_id):
                 flash(f"This goal cannot be set.")
                 return redirect(url_for('points_goal'))
     return render_template('points_goal.html', form=form)
-=======
-        pass
+
 
 @app.route('/modules')
 def modules():
-    modules_list = ['SWW1', 'SWW2', 'BUS', 'AIML', 'CS', 'DSAD']
+    modules_list = []
+    module_data = Module.query.all()
+    for module in module_data:
+        modules_list.append(module.module_name)
     return render_template('modules.html', modules_list = modules_list)
 
 @app.route('/module_add/<module>')
@@ -230,4 +237,3 @@ def toggle_theme():
     else:
         session["theme"] = "dark"
     return redirect(request.referrer)
->>>>>>> 9fdefb96b75a7fa64f4501828ecb59462117770d
