@@ -15,7 +15,17 @@ class TaskForm(FlaskForm):
                    ("customTasks", "Custom")],
         validators=[DataRequired()]
     )
-    module = StringField("What module is it for?", validators=[DataRequired()])
+    module = SelectField(
+        "Select the task module:",
+        choices = [("SWW1", "SWW1"),
+                   ("SWW2", "SWW2"),
+                   ("BUS", "BUS"),
+                   ("AIML", "AIML"),
+                   ("CS", "CS"),
+                   ("DSAD", "DSAD"),
+                   ("other", "Other")],
+        validators=[DataRequired()]
+    )
     points = IntegerField("How many points is this task worth to you?", validators=[DataRequired()])
     due_date = DateField(
         "Due date:",

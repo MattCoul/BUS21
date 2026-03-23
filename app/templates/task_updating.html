@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Task updating page</h2>
+
+<form method="post">
+    {{ form.hidden_tag() }}
+
+    <p>
+        {{ form.name.label }}<br>
+        {{ form.name() }}
+    </p>
+
+    <p>
+        {{ form.description.label }}<br>
+        {{ form.description() }}
+    </p>
+
+    <p>
+        {{ form.type.label }}<br>
+        {{ form.type() }}
+    </p>
+
+    <p>
+        {{ form.module.label }}<br>
+        {{ form.module() }}
+    </p>
+
+    <p>
+        {{ form.points.label }}<br>
+        {{ form.points() }}
+    </p>
+
+    <p>
+        {{ form.due_date.label }}<br>
+        {{ form.due_date() }}
+    </p>
+
+    <p>{{ form.submit(value="Update task") }}</p>
+</form>
+
+{% endblock %}

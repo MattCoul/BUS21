@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="{{ 'dark-mode' if session.get('theme') == 'dark' }}">
 <head>
   <title>Sketchbook</title>
   <meta charset="utf-8">
@@ -11,11 +11,14 @@
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <style>
 
+    :root {
+
     .navbar {
       margin-bottom: 0;
       border-radius: 0;
       border-color: #9A7AA0;
       background-color: #9A7AA0;
+      padding: 7px;
     }
 
     a:link {color:#9A7AA0;text-decoration:none;}
@@ -25,9 +28,12 @@
 
     a.navbar-brand:link{color: white; font-size:230%;}
     a.navbar-brand:visited{color: white; font-size:230%;}
-    a.navbar-brand:hover{text-decoration:underline; font-size:230%;}
+    a.navbar-brand:hover{text-decoration:none; font-size:230%;}
 
-    .row.content {height: 512px}
+    .row.content {
+    height: 600px;
+    background-color:#f9f9f9;
+    }
 
     .sidenav {
       padding-top: 20px;
@@ -41,6 +47,39 @@
       padding: 12px;
     }
 
+    input {
+    border-radius: 8px;
+    background-color: #ededed;
+    color: #1f1f1f;
+    }
+
+    select {
+    border-radius: 8px;
+    background-color: #ededed;
+    color: #1f1f1f;
+    padding: 3px;
+    }
+
+    table, th, td {
+    border: 1px solid black;
+    padding: 3px;
+    }
+
+    th {
+    background-color:#ccbccf;
+    }
+
+    .button {
+    background:none;
+    color:#9a7aa0;
+    border: none;
+    }
+
+    .button:hover {
+    text-decoration:underline;
+    }
+
+
     @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
@@ -48,6 +87,84 @@
       }
       .row.content {height:auto;}
     }
+    }
+
+    :root.dark-mode {
+      .navbar {
+      margin-bottom: 0;
+      border-radius: 0;
+      border-color: #3B2B3E;
+      background-color: #3B2B3E;
+      padding: 7px;
+    }
+
+    a:link {color:#CDCDCD;text-decoration:none;}
+    a:visited {color:#CDCDCD;text-decoration:none;}
+    a:hover {text-decoration:underline;}
+
+    a.navbar-brand:link{color: #CDCDCD;}
+    a.navbar-brand:visited{color: #CDCDCD;}
+    a.navbar-brand:hover{text-decoration:none;}
+
+    .row.content {
+      height: 600px;
+      background-color:#1F1F1F;
+      color:#CDCDCD
+    }
+
+    .sidenav {
+      padding-top: 20px;
+      background-color: #1d3d3f;
+      height: 100%;
+    }
+
+    input {
+    border-radius: 8px;
+    background-color: #444444;
+    color: #cdcdcd;
+    }
+
+    select {
+    border-radius: 8px;
+    background-color: #444444;
+    color: #cdcdcd;
+    padding: 3px;
+    }
+
+    table, th, td {
+    border: 1px solid #cdcdcd;
+    padding: 3px
+    }
+
+    th {
+    background-color:#3B2B3E;
+    }
+
+    .button {
+    background:none;
+    color:#cdcdcd;
+    border: none;
+    }
+
+    .button:hover {
+    text-decoration:underline
+    }
+
+    footer {
+      background-color: #3B2B3E;
+      color: #CDCDCD;
+      padding: 12px;
+    }
+
+    @media screen and (max-width: 767px) {
+      .sidenav {
+        height: auto;
+        padding: 15px;
+      }
+      .row.content {height:auto;}
+    }
+    }
+
   </style>
 </head>
 <body>
@@ -67,10 +184,11 @@
       <ul class="nav navbar-nav">
       </ul>
       <ul class="nav navbar-nav navbar-right">
+          <li><a href="{{ url_for('toggle_theme') }}" style="color:white;"> <span class="glyphicon glyphicon-adjust"></span></a></li>
         {% if session.user_id %}
-            <li><a href="{{ url_for('logout') }}" style="color:white;"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            <li><a href="{{ url_for('logout') }}" style="color:white; font-size:110%"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
         {% else %}
-            <li><a href="{{ url_for('login') }}" style="color:white;"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            <li><a href="{{ url_for('login') }}" style="color:white; font-size:110%"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
         {% endif %}
       </ul>
     </div>
@@ -84,7 +202,7 @@
       <p><a href="{{ url_for('task_display') }}">Task Display</a></p>
       <p><a href="{{ url_for('task_creation') }}">Task Creation</a></p>
       <p><a href="{{ url_for('view_points') }}">View Points</a></p>
-      <p><a href="#">Modules</a></p>
+      <p><a href="{{ url_for('modules') }}">Modules</a></p>
     </div>
 
     <div class="col-sm-10 text-left">

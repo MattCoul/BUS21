@@ -172,6 +172,7 @@ def points_goal(user_id):
         flash("Please log in to continue")
         return redirect(url_for('login'))
     else:
+<<<<<<< HEAD
         user = User.query.get_or_404(user_id)
         form = PointsForm(obj=user)
 
@@ -186,3 +187,47 @@ def points_goal(user_id):
                 flash(f"This goal cannot be set.")
                 return redirect(url_for('points_goal'))
     return render_template('points_goal.html', form=form)
+=======
+        pass
+
+@app.route('/modules')
+def modules():
+    modules_list = ['SWW1', 'SWW2', 'BUS', 'AIML', 'CS', 'DSAD']
+    return render_template('modules.html', modules_list = modules_list)
+
+@app.route('/module_add/<module>')
+def module_add(module):
+    return render_template('module_add.html', module=module)
+  
+  
+@app.route('/deleting/<int:task_id>', methods=['GET', 'POST'])
+def deleting_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    db.session.delete(task)
+    db.session.commit()
+    flash('Task deleted!', 'success')
+    return redirect(url_for('task_display'))
+
+
+@app.route('/updating/<int:task_id>', methods=['GET', 'POST'])
+def updating_task(task_id):
+    task = Task.query.get_or_404(task_id)
+    form = TaskForm(obj=task)
+
+    if form.validate_on_submit():
+        form.populate_obj(task)
+        db.session.commit()
+        flash('Task updated!', 'success')
+        return redirect(url_for('task_display'))
+
+    return render_template('task_updating.html', form=form, task=task)
+
+@app.route("/toggle-theme")
+def toggle_theme():
+    current_theme = session.get("theme")
+    if current_theme == "dark":
+        session["theme"] = "light"
+    else:
+        session["theme"] = "dark"
+    return redirect(request.referrer)
+>>>>>>> 9fdefb96b75a7fa64f4501828ecb59462117770d
