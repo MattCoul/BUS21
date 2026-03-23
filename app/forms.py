@@ -46,3 +46,7 @@ class RegisterForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Length(max=100)])
     password = PasswordField("Password", validators=[DataRequired(), Length(max=100)])
     submit = SubmitField("Register")
+
+class PointsForm(FlaskForm):
+    goal = IntegerField("How many points do you want to want to earn?", validators=[DataRequired()])
+    submit = SubmitField("Set Points Goal")

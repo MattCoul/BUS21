@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Points Goal{% endblock %}
+
+{% block content %}
+    <h1>Set a new points goal</h1>
+
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.goal.label }}<br>
+            {{ form.goal }}<br>
+
+        <br>
+
+        <p> {{ form.submit() }} </p>
+    </form>
+
+        <a href="{{ url_for('task_display') }}">Return to Task Display</a>
+
+
+{% endblock %}
