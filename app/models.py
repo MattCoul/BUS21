@@ -9,10 +9,10 @@ class Task(db.Model):
     name: so.Mapped[str] = so.mapped_column(sa.String(256), index=True, nullable=False)
     description: so.Mapped[str] = so.mapped_column(sa.String(512))
     type: so.Mapped[str] = so.mapped_column(sa.String(265), default="Custom")
-    module: so.Mapped[str] = so.mapped_column(sa.String(256))
     points: so.Mapped[int] = so.mapped_column(nullable=False)
     due_date: so.Mapped[datetime] = so.mapped_column(sa.DATE, nullable=False, default=lambda: datetime.now(timezone.utc))
     completed: so.Mapped[bool] = so.mapped_column(default=False)
+    module_id: so.Mapped[int] = so.mapped_column(sa.Integer, sa.ForeignKey('module.id'))
 
 #base user db
 class User(db.Model):
@@ -20,3 +20,9 @@ class User(db.Model):
     username = db.Column(db.String(80), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+
+
+class Module(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    module_name = db.Column(db.String(80), unique=True, nullable=False)
+    tasks = db.relationship('Task', backref='task_module')
