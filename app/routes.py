@@ -5,7 +5,7 @@ from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
 from app.models import Task, User, Module
 from datetime import datetime
-from app.forms import create_task_form, LoginForm
+from app.forms import create_task_form, LoginForm, PointsForm
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.forms import RegisterForm
@@ -131,17 +131,20 @@ def register():
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(username=form.username.data).first()
+    if 'user_id' not in session:
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = User.query.filter_by(username=form.username.data).first()
 
-        if user and check_password_hash(user.password, form.password.data):
-            session['user_id'] = user.id
-            flash('You have successfully logged in!', 'success')
-            return redirect(url_for('index'))
-        else:
-            flash('Login Unsuccessful. Please check username and password', 'danger')
-
+            if user and check_password_hash(user.password, form.password.data):
+                session['user_id'] = user.id
+                flash('You have successfully logged in!', 'success')
+                return redirect(url_for('index'))
+            else:
+                flash('Login Unsuccessful. Please check username and password', 'danger')
+    else:
+        flash(f'You are already logged in.')
+        return redirect(url_for('task_display'))
     return render_template('login.html', form=form)
 
 @app.route('/logout')
@@ -169,13 +172,27 @@ def view_points():
         points_total = points_total[0][0]
     return render_template('view_points.html', points=points, points_total=points_total)
 
-@app.route('/points_goal')
-def points_goal():
+@app.route('/points_goal', methods=['GET', 'POST'])
+def points_goal(user_id):
     if "user_id" not in session:
         flash("Please log in to continue")
         return redirect(url_for('login'))
     else:
-        pass
+        user = User.query.get_or_404(user_id)
+        form = PointsForm(obj=user)
+
+        if form.validate_on_submit():
+            try:
+                user.goal = form.goal.data
+                db.session.commit()
+                flash(f"Point goal successfully updated.")
+                return redirect(url_for('view_points'))
+            except IntegrityError:
+                db.session.rollback()
+                flash(f"This goal cannot be set.")
+                return redirect(url_for('points_goal'))
+    return render_template('points_goal.html', form=form)
+
 
 @app.route('/modules')
 def modules():
