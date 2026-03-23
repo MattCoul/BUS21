@@ -3,7 +3,7 @@ from app import app
 from app import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
-from app.models import Task, User, Module
+from app.models import Task, User, Goal, Module
 from datetime import datetime
 from app.forms import create_task_form, LoginForm, PointsForm
 from werkzeug.security import check_password_hash, generate_password_hash
@@ -170,28 +170,33 @@ def view_points():
             func.sum(Task.points)
         ).all()
         points_total = points_total[0][0]
-    return render_template('view_points.html', points=points, points_total=points_total)
+
+    goal = Goal.query.order_by(Goal.id.desc()).all()
+    goal1 = goal[0].goal
+
+    return render_template('view_points.html', points=points, points_total=points_total, goal=goal1)
 
 @app.route('/points_goal', methods=['GET', 'POST'])
-def points_goal(user_id):
+def points_goal():
     if "user_id" not in session:
         flash("Please log in to continue")
         return redirect(url_for('login'))
     else:
-        user = User.query.get_or_404(user_id)
-        form = PointsForm(obj=user)
-
+        form = PointsForm()
         if form.validate_on_submit():
             try:
-                user.goal = form.goal.data
+                goal = Goal(goal=form.goal.data)
+                db.session.add(goal)
                 db.session.commit()
                 flash(f"Point goal successfully updated.")
                 return redirect(url_for('view_points'))
             except IntegrityError:
                 db.session.rollback()
-                flash(f"This goal cannot be set.")
-                return redirect(url_for('points_goal'))
-    return render_template('points_goal.html', form=form)
+                flash(f"Error! Looks like this goal cannot be set. Try again")
+                return render_template('points_goal.html',
+                                       form=form)
+    goal = Goal.query.all()
+    return render_template('points_goal.html', form=form, goal=goal)
 
 
 @app.route('/modules')

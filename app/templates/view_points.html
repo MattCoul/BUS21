@@ -3,18 +3,29 @@
 
 {% block content %}
     <h1>Your Points</h1>
+<br>
 
-    <p> You have earned {{ points_total }} points! </p>
+    <p> You have earned <strong>{{ points_total }}</strong> points! </p>
 
-    <br>
-    <br>
-    {% if points_goal %}
-    <p>Your goal for this term is {{ points_goal }} points.</p>
+    {% if goal %}
+    <p>Your goal for this term is <strong>{{ goal }}</strong> points.</p>
+
+<br>
+    {% if goal <= points_total %}
+    <p><strong>Congratulations! You have hit your points goal!</strong></p>
+
+    {% else %}
+    <p>You are <strong>{{ (points_total/goal)*100 }}%</strong> of the way to hitting your goal.</p>
     {% endif %}
-    <a href="{{ url_for('points_goal') }}">Click here to set a new points goal.</a>
-    <br>
-    <br>
 
+
+    {% endif %}
+
+<br>
+<br>
+
+    <a href="{{ url_for('points_goal') }}">Set a new points goal</a>
+<br>
     <a href="{{ url_for('task_display') }}">Return to Task Display</a>
 
 {% endblock %}
