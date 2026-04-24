@@ -1,6 +1,0 @@
-Modules
-- in Task form
-    - list of modules from Module table
-
-- in routes.py
-    - replace all instances of module from Task with task_module.module_name

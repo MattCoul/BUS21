@@ -10,9 +10,46 @@ from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.forms import RegisterForm
 
+#DELETE BEFORE SUBMISSION!!
+#To set up database:
+# - uncomment lines 17-17 and 41
+# - set up app.db with your terminal as follows
+#   - flask shell
+#   - from app import db
+#   - from app.models import Task
+#   - from app.models import Goal
+#   - from app.models import User
+#   - from app.models import Module
+#   - db.create_all()
+#   - exit()
+# - run the program and visit the home page
+# - you're good to go
+
+# def create_modules():
+#     bus = Module(module_name='BUS')
+#     dsad = Module(module_name='DSAD')
+#     sww1 = Module(module_name='SWW1')
+#     sww2 = Module(module_name='SWW2')
+#     cs = Module(module_name='CS')
+#     aiml = Module(module_name='AIML')
+#     try:
+#         db.session.add(bus)
+#         db.session.add(dsad)
+#         db.session.add(sww1)
+#         db.session.add(sww2)
+#         db.session.add(cs)
+#         db.session.add(aiml)
+#         db.session.commit()
+#         flash(f"Modules successfully added.")
+#         return redirect(url_for('index'))
+#     except IntegrityError:
+#         db.session.rollback()
+#         flash(f"Modules cannot be created.")
+#         return redirect(url_for('index'))
 
 @app.route('/')
 def index():
+#    create_modules()
     return render_template('index.html')
 
 @app.route('/task_display', methods=['GET', 'POST'])
@@ -41,7 +78,7 @@ def task_display():
     elif order == "type":
         query = query.order_by(Task.type.asc())
     elif order == "module":
-        query = query.order_by(Task.task_module.module_name.asc())
+        query = query.order_by(Task.module.module_name.asc())
     elif order == "points":
         query = query.order_by(Task.points.desc())
     elif order == "due_date":
