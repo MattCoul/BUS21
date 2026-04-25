@@ -208,8 +208,11 @@ def view_points():
         ).all()
         points_total = points_total[0][0]
 
-    goal = Goal.query.order_by(Goal.id.desc()).all()
-    goal1 = goal[0].goal
+    if Goal.query.scalar():
+        goal = Goal.query.order_by(Goal.id.desc()).all()
+        goal1 = goal[0].goal
+    else:
+        goal1 = None
 
     return render_template('view_points.html', points=points, points_total=points_total, goal=goal1)
 
