@@ -4,8 +4,8 @@
 {% block content %}
 <h1>Task Display</h1>
 <form method="GET">
-    <label>Choose Task Type:</label>
-    <select name="task_type" onchange="this.form.submit()">
+    <label for="task_type">Choose Task Type:</label>
+    <select id="task_type" name="task_type" onchange="this.form.submit()">
         <option value="allTasks" selected="selected">Show all tasks</option>
         <option value="exam"
                 {% if task_type=="exam" %} selected {% endif %}>
@@ -24,8 +24,8 @@
             Show custom tasks
         </option>
     </select><br>
-    <label>Select Display Order:</label>
-    <select name="order" onchange="this.form.submit()">
+    <label for="order">Select Display Order:</label>
+    <select id="order" name="order" onchange="this.form.submit()">
         <option value="" selected="selected">No order</option>
         <option value="name"
                 {% if order=="name" %} selected {% endif %}>
@@ -48,8 +48,8 @@
             By due date
         </option>
     </select><br>
-    <label>Task Name:</label>
-    <input type="name" name="name"
+    <label for="name">Task Name:</label>
+    <input id="name" type="name" name="name"
            value="{{ request.args.get('name', '') }}"><br>
     <label>Show Completed Tasks</label>
     <select name="show_complete" onchange="this.form.submit()">
@@ -74,8 +74,10 @@
         <th>Points</th>
         <th>Due Date</th>
         <th>Completed</th>
+        <th>Delete</th>
+        <th>Update</th>
     </tr>
-    {% for task in tasks %}
+    {% for task, completed in tasks %}
     <tr>
         <td>{{ task.name }}</td>
         <td>{{ task.description }}</td>
@@ -83,18 +85,13 @@
         <td>{{ task.module.module_name }}</td>
         <td>{{ task.points }}</td>
         <td>{{ task.due_date }}</td>
-        <td>{{ task.completed }}</td>
-        <td>
-            <form method="POST">
-                <button name="task_completed" value="{{ task.id }}" type="submit" class="button">
-                    {% if not task.completed %}
+        <td><form method="POST"><button name="task_completed" value="{{ task.id }}" type="submit" class="button">
+                    {% if not completed %}
                         Mark as Done
                     {% else %}
                         Mark Unfinished
                     {% endif %}
-                </button>
-            </form>
-        </td>
+                </button></form></td>
         <td>
         <a href="{{ url_for('deleting_task', task_id=task.id) }}">
             Delete Task
