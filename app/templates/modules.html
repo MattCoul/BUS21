@@ -12,8 +12,12 @@
     </tr>
     {% for module in modules_list %}
     <tr>
-        <td>{{ module }}</td>
-        <td><a href="{{ url_for('module_add', module=module) }}">Add Tasks</a></td>
+        <td>{{ module.module_name }}</td>
+        <td>
+            <form method="POST" action="{{ url_for('module_add', module_id=module.id) }}">
+                <button type="submit">Add Tasks</button>
+            </form>
+        </td>
     </tr>
     {% endfor %}
     </table>

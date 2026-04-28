@@ -19,7 +19,8 @@ def create_task_form(modules_list=None):
         module = SelectField(
             "Select the task module:",
             choices = modules_list,
-            validators=[DataRequired()]
+            validators=[DataRequired()],
+            coerce=int
         )
         points = IntegerField("How many points is this task worth to you?", validators=[DataRequired()])
         due_date = DateField(
@@ -29,7 +30,7 @@ def create_task_form(modules_list=None):
             validators=[DataRequired()]
         )
         submit = SubmitField("Add task")
-    return TaskForm()
+    return TaskForm
 
 
 class LoginForm(FlaskForm):

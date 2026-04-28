@@ -3,53 +3,15 @@ from app import app
 from app import db
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
-from app.models import Task, User, Goal, Module
+from app.models import Task, User, Goal, Module, UserTasks
 from datetime import datetime
 from app.forms import create_task_form, LoginForm, PointsForm
 from werkzeug.security import check_password_hash, generate_password_hash
 
 from app.forms import RegisterForm
 
-#DELETE BEFORE SUBMISSION!!
-#To set up database:
-# - uncomment lines 17-17 and 41
-# - set up app.db with your terminal as follows
-#   - flask shell
-#   - from app import db
-#   - from app.models import Task
-#   - from app.models import Goal
-#   - from app.models import User
-#   - from app.models import Module
-#   - db.create_all()
-#   - exit()
-# - run the program and visit the home page
-# - you're good to go
-
-# def create_modules():
-#     bus = Module(module_name='BUS')
-#     dsad = Module(module_name='DSAD')
-#     sww1 = Module(module_name='SWW1')
-#     sww2 = Module(module_name='SWW2')
-#     cs = Module(module_name='CS')
-#     aiml = Module(module_name='AIML')
-#     try:
-#         db.session.add(bus)
-#         db.session.add(dsad)
-#         db.session.add(sww1)
-#         db.session.add(sww2)
-#         db.session.add(cs)
-#         db.session.add(aiml)
-#         db.session.commit()
-#         flash(f"Modules successfully added.")
-#         return redirect(url_for('index'))
-#     except IntegrityError:
-#         db.session.rollback()
-#         flash(f"Modules cannot be created.")
-#         return redirect(url_for('index'))
-
 @app.route('/')
 def index():
-#    create_modules()
     return render_template('index.html')
 
 @app.route('/task_display', methods=['GET', 'POST'])
@@ -58,7 +20,8 @@ def task_display():
         flash("Please log in to continue")
         return redirect(url_for('login'))
 
-    query = Task.query
+    user_id = session['user_id']
+    query = db.session.query(Task, UserTasks.completed).join(UserTasks, Task.id == UserTasks.task_id).filter(UserTasks.user_id == user_id)
 
     # Type of tasks display logic
     task_type = request.args.get("task_type")
@@ -78,7 +41,7 @@ def task_display():
     elif order == "type":
         query = query.order_by(Task.type.asc())
     elif order == "module":
-        query = query.order_by(Task.module.module_name.asc())
+        query = query.join(Module).order_by(Module.module_name.asc())
     elif order == "points":
         query = query.order_by(Task.points.desc())
     elif order == "due_date":
@@ -87,9 +50,9 @@ def task_display():
     #Show or Hide Completed tasks logic
     show_complete = request.args.get("show_complete")
     if show_complete == "False":
-        query = query.filter(Task.completed == False)
+        query = query.filter(UserTasks.completed == False)
     elif show_complete == "Only":
-        query = query.filter(Task.completed == True)
+        query = query.filter(UserTasks.completed == True)
 
     # Name of task filter logic
     name = request.args.get("name")
@@ -97,9 +60,10 @@ def task_display():
         query = query.filter(Task.name.ilike(name))
 
     tasks =  query.all() # filter tasks as required
+
     if request.method == "POST":
         task_id = request.form.get("task_completed")
-        task = Task.query.get(task_id)
+        task = UserTasks.query.filter_by(user_id=session['user_id'], task_id=task_id).first()
         if task:
             task.completed = not task.completed
             db.session.commit()
@@ -118,21 +82,22 @@ def task_creation():
     modules_list = []
     print(all_modules)
     for m in all_modules:
-        modules_list.append((m.module_name, m.module_name))
-    form = create_task_form(modules_list=modules_list)
+        modules_list.append((m.id, m.module_name))
+    form = create_task_form(modules_list=modules_list)()
     if form.validate_on_submit():
-        module_name = form.module.data
-        module = Module.query.filter_by(module_name=module_name).first_or_404()
+        module_id = form.module.data
         task = Task(name=form.name.data,
                     description=form.description.data,
                     type=form.type.data,
-                    module_id=module.id,
+                    module_id=module_id,
                     points=form.points.data,
-                    due_date=form.due_date.data,
-                    completed=False,
+                    due_date=form.due_date.data
                     )
         try:
             db.session.add(task)
+            db.session.commit()
+            user_task = UserTasks(user_id=session['user_id'], task_id=task.id)
+            db.session.add(user_task)
             db.session.commit()
             flash(f"Task successfully added.")
             return redirect(url_for('task_creation'))
@@ -238,21 +203,29 @@ def points_goal():
 
 @app.route('/modules')
 def modules():
-    modules_list = []
     module_data = Module.query.all()
-    for module in module_data:
-        modules_list.append(module.module_name)
-    return render_template('modules.html', modules_list = modules_list)
+    return render_template('modules.html', modules_list = module_data)
 
-@app.route('/module_add/<module>')
-def module_add(module):
-    return render_template('module_add.html', module=module)
-  
+@app.route('/module_add/<int:module_id>', methods=['POST'])
+def module_add(module_id):
+    if "user_id" not in session:
+        flash("Please log in to continue")
+        return redirect(url_for('login'))
+    user_id = session['user_id']
+    module = Module.query.get_or_404(module_id)
+    tasks = Task.query.filter_by(module_id=module.id).all()
+    for task in tasks:
+        is_new = UserTasks.query.filter_by(user_id=user_id, task_id=task.id).first()
+        if not is_new:
+            db.session.add(UserTasks(user_id=user_id, task_id=task.id, completed=False))
+    db.session.commit()
+    flash('All module tasks added to your list!')
+    return redirect(url_for('modules'))
+
   
 @app.route('/deleting/<int:task_id>', methods=['GET', 'POST'])
 def deleting_task(task_id):
-    task = Task.query.get_or_404(task_id)
-    db.session.delete(task)
+    UserTasks.query.filter_by(user_id=session['user_id'], task_id=task_id).delete()
     db.session.commit()
     flash('Task deleted!', 'success')
     return redirect(url_for('task_display'))
@@ -261,10 +234,17 @@ def deleting_task(task_id):
 @app.route('/updating/<int:task_id>', methods=['GET', 'POST'])
 def updating_task(task_id):
     task = Task.query.get_or_404(task_id)
+    modules_list = [(m.id, m.module_name) for m in Module.query.all()]
+    TaskForm = create_task_form(modules_list=modules_list)
     form = TaskForm(obj=task)
 
     if form.validate_on_submit():
-        form.populate_obj(task)
+        task.name = form.name.data
+        task.description = form.description.data
+        task.type = form.type.data
+        task.module_id = form.module.data
+        task.points = form.points.data
+        task.due_date = form.due_date.data
         db.session.commit()
         flash('Task updated!', 'success')
         return redirect(url_for('task_display'))
