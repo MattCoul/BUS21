@@ -140,6 +140,7 @@ def login():
 
             if user and check_password_hash(user.password, form.password.data):
                 session['user_id'] = user.id
+                session['username'] = user.username
                 flash('You have successfully logged in!', 'success')
                 return redirect(url_for('index'))
             else:
@@ -175,7 +176,8 @@ def view_points():
 
     if Goal.query.scalar():
         goal = Goal.query.order_by(Goal.id.desc()).all()
-        goal1 = goal[0].goal
+        if goal:
+            goal1 = goal[0].goal
     else:
         goal1 = None
 

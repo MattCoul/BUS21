@@ -1,7 +1,7 @@
 
 
 <!DOCTYPE html>
-<html lang="en" class="{{ 'dark-mode' if session.get('theme') == 'dark' }}">
+<html lang="en">
 <head>
   <title>Sketchbook</title>
   <meta charset="utf-8">
@@ -10,8 +10,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   <style>
-
-    :root {
 
     .navbar {
       margin-bottom: 0;
@@ -87,10 +85,9 @@
       }
       .row.content {height:auto;}
     }
-    }
 
-    :root.dark-mode {
-      .navbar {
+
+    body.dark-mode .navbar {
       margin-bottom: 0;
       border-radius: 0;
       border-color: #3B2B3E;
@@ -98,76 +95,69 @@
       padding: 7px;
     }
 
-    a:link {color:#CDCDCD;text-decoration:none;}
-    a:visited {color:#CDCDCD;text-decoration:none;}
-    a:hover {text-decoration:underline;}
+    body.dark-mode a:link {color:#CDCDCD;text-decoration:none;}
+    body.dark-mode a:visited {color:#CDCDCD;text-decoration:none;}
+    body.dark-mode a:hover {text-decoration:underline;}
 
-    a.navbar-brand:link{color: #CDCDCD;}
-    a.navbar-brand:visited{color: #CDCDCD;}
-    a.navbar-brand:hover{text-decoration:none;}
+    body.dark-mode a.navbar-brand:link{color: #CDCDCD;}
+    body.dark-mode a.navbar-brand:visited{color: #CDCDCD;}
+    body.dark-mode a.navbar-brand:hover{text-decoration:none;}
 
-    .row.content {
+    body.dark-mode .row.content {
       height: 600px;
       background-color:#1F1F1F;
       color:#CDCDCD
     }
 
-    .sidenav {
+    body.dark-mode .sidenav {
       padding-top: 20px;
       background-color: #1d3d3f;
       height: 100%;
     }
 
-    input {
+    body.dark-mode input {
     border-radius: 8px;
     background-color: #444444;
     color: #cdcdcd;
     }
 
-    select {
+    body.dark-mode select {
     border-radius: 8px;
     background-color: #444444;
     color: #cdcdcd;
     padding: 3px;
     }
 
-    table, th, td {
+    body.dark-mode table, th, td {
     border: 1px solid #cdcdcd;
     padding: 3px
     }
 
-    th {
+    body.dark-mode th {
     background-color:#3B2B3E;
     }
 
-    .button {
+    body.dark-mode .button {
     background:none;
-    color:#cdcdcd;
+    color:#CDCDCD;
     border: none;
     }
 
-    .button:hover {
+    body.dark-mode .button:hover {
     text-decoration:underline
     }
 
-    footer {
+    body.dark-mode footer {
       background-color: #3B2B3E;
       color: #CDCDCD;
       padding: 12px;
     }
 
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
-      }
-      .row.content {height:auto;}
-    }
-    }
+
 
   </style>
 </head>
-<body>
+<body class="{{ 'dark-mode' if session.get('theme') == 'dark' else '' }}">
 
 
 <nav class="navbar navbar-inverse">
