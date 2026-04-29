@@ -1,216 +1,226 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Sketchbook</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-  <style>
+    <title>Sketchbook</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
 
-    .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-      border-color: #774288;
-      background-color: #774288;
-      padding: 7px;
-    }
-
-    a:link {color:#4A2753;text-decoration:none;}
-    a:visited {color:#4A2753;text-decoration:none;}
-    a:hover {text-decoration:underline;}
-
-
-    a.navbar-brand:link{color: white; font-size:230%;}
-    a.navbar-brand:visited{color: white; font-size:230%;}
-    a.navbar-brand:hover{text-decoration:none; font-size:230%;}
-
-    .row.content {
-    height: 600px;
-    background-color:#f9f9f9;
-    }
-
-    .sidenav {
-      padding-top: 20px;
-      background-color: #A0CFD3;
-      height: 100%;
-    }
-
-    footer {
-      background-color: #774288;
-      color: #FFFFFF;
-      padding: 12px;
-    }
-
-    input {
-    border-radius: 8px;
-    background-color: #ededed;
-    color: #1f1f1f;
-    }
-
-    select {
-    border-radius: 8px;
-    background-color: #ededed;
-    color: #1f1f1f;
-    padding: 3px;
-    }
-
-    table, th, td {
-    border: 1px solid black;
-    padding: 3px;
-    }
-
-    th {
-    background-color:#ccbccf;
-    }
-
-    .button {
-    background:none;
-    color:#4A2753;
-    border: none;
-    }
-
-    .button:hover {
-    text-decoration:underline;
-    }
-
-
-    @media screen and (max-width: 767px) {
-      .sidenav {
-        height: auto;
-        padding: 15px;
+      body {
+        min-height: 83vh;
       }
-      .row.content {height:auto;}
-    }
+
+      .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+        border-color: #774288;
+        background-color: #774288;
+        padding: 7px;
+        height: 10vh;
+      }
+
+      a:link {color:#4A2753;text-decoration:none;}
+      a:visited {color:#4A2753;text-decoration:none;}
+      a:hover {text-decoration:underline;}
 
 
-    body.dark-mode .navbar {
-      margin-bottom: 0;
-      border-radius: 0;
-      border-color: #3B2B3E;
-      background-color: #3B2B3E;
-      padding: 7px;
-    }
+      a.navbar-brand:link{color: white; font-size:230%;}
+      a.navbar-brand:visited{color: white; font-size:230%;}
+      a.navbar-brand:hover{text-decoration:none; font-size:230%;}
 
-    body.dark-mode a:link {color:#CDCDCD;text-decoration:none;}
-    body.dark-mode a:visited {color:#CDCDCD;text-decoration:none;}
-    body.dark-mode a:hover {text-decoration:underline;}
+      .row.content {
+      min-height: 83vh;
+      background-color:#f9f9f9;
+      }
 
-    body.dark-mode a.navbar-brand:link{color: #CDCDCD;}
-    body.dark-mode a.navbar-brand:visited{color: #CDCDCD;}
-    body.dark-mode a.navbar-brand:hover{text-decoration:none;}
+      .sidenav {
+        padding-top: 20px;
+        background-color: #A0CFD3;
+        height: 83vh;
+      }
 
-    body.dark-mode .row.content {
-      height: 600px;
-      background-color:#1F1F1F;
-      color:#CDCDCD
-    }
+      footer {
+        background-color: #774288;
+        color: #FFFFFF;
+        padding: 12px;
+        height: 7vh;
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+      }
 
-    body.dark-mode .sidenav {
-      padding-top: 20px;
-      background-color: #1d3d3f;
-      height: 100%;
-    }
+      input {
+      border-radius: 8px;
+      background-color: #ededed;
+      color: #1f1f1f;
+      }
 
-    body.dark-mode input {
-    border-radius: 8px;
-    background-color: #444444;
-    color: #cdcdcd;
-    }
+      select {
+      border-radius: 8px;
+      background-color: #ededed;
+      color: #1f1f1f;
+      padding: 3px;
+      }
 
-    body.dark-mode select {
-    border-radius: 8px;
-    background-color: #444444;
-    color: #cdcdcd;
-    padding: 3px;
-    }
+      table, th, td {
+      border: 1px solid black;
+      padding: 3px;
+      }
 
-    body.dark-mode table, th, td {
-    border: 1px solid #cdcdcd;
-    padding: 3px
-    }
+      th {
+      background-color:#ccbccf;
+      }
 
-    body.dark-mode th {
-    background-color:#3B2B3E;
-    }
+      .button {
+      background:none;
+      color:#4A2753;
+      border: none;
+      }
 
-    body.dark-mode .button {
-    background:none;
-    color:#CDCDCD;
-    border: none;
-    }
-
-    body.dark-mode .button:hover {
-    text-decoration:underline
-    }
-
-    body.dark-mode footer {
-      background-color: #3B2B3E;
-      color: #CDCDCD;
-      padding: 12px;
-    }
+      .button:hover {
+      text-decoration:underline;
+      }
 
 
+      @media screen and (max-width: 767px) {
+        .sidenav {
+          height: auto;
+          padding: 15px;
+        }
+        .row.content {height:auto;}
+      }
 
-  </style>
+
+      body.dark-mode .navbar {
+        margin-bottom: 0;
+        border-radius: 0;
+        border-color: #3B2B3E;
+        background-color: #3B2B3E;
+        padding: 7px;
+      }
+
+      body.dark-mode a:link {color:#CDCDCD;text-decoration:none;}
+      body.dark-mode a:visited {color:#CDCDCD;text-decoration:none;}
+      body.dark-mode a:hover {text-decoration:underline;}
+
+      body.dark-mode a.navbar-brand:link{color: #CDCDCD;}
+      body.dark-mode a.navbar-brand:visited{color: #CDCDCD;}
+      body.dark-mode a.navbar-brand:hover{text-decoration:none;}
+
+      body.dark-mode .row.content {
+        height: 600px;
+        background-color:#1F1F1F;
+        color:#CDCDCD
+      }
+
+      body.dark-mode .sidenav {
+        padding-top: 20px;
+        background-color: #1d3d3f;
+        height: 100%;
+      }
+
+      body.dark-mode input {
+      border-radius: 8px;
+      background-color: #444444;
+      color: #cdcdcd;
+      }
+
+      body.dark-mode select {
+      border-radius: 8px;
+      background-color: #444444;
+      color: #cdcdcd;
+      padding: 3px;
+      }
+
+      body.dark-mode table, th, td {
+      border: 1px solid #cdcdcd;
+      padding: 3px
+      }
+
+      body.dark-mode th {
+      background-color:#3B2B3E;
+      }
+
+      body.dark-mode .button {
+      background:none;
+      color:#CDCDCD;
+      border: none;
+      }
+
+      body.dark-mode .button:hover {
+      text-decoration:underline
+      }
+
+      body.dark-mode footer {
+        background-color: #3B2B3E;
+        color: #CDCDCD;
+        padding: 12px;
+      }
+
+
+    </style>
 </head>
 <body class="{{ 'dark-mode' if session.get('theme') == 'dark' else '' }}">
 
 
 <nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <a class="navbar-brand" href="{{ url_for('index') }}">Sketchbook</a>
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="{{ url_for('index') }}">Sketchbook</a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="{{ url_for('toggle_theme') }}" style="color:white;"> <span
+                        class="glyphicon glyphicon-adjust"></span> Toggle Darkmode</a></li>
+                {% if session.user_id %}
+                <li><a href="{{ url_for('logout') }}" style="color:white; font-size:110%"> <span
+                        class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                {% else %}
+                <li><a href="{{ url_for('login') }}" style="color:white; font-size:110%"><span
+                        class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                {% endif %}
+            </ul>
+        </div>
     </div>
-    <div class="collapse navbar-collapse" id="myNavbar">
-      <ul class="nav navbar-nav">
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-          <li><a href="{{ url_for('toggle_theme') }}" style="color:white;"> <span class="glyphicon glyphicon-adjust"></span> Toggle Darkmode</a></li>
-        {% if session.user_id %}
-            <li><a href="{{ url_for('logout') }}" style="color:white; font-size:110%"> <span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-        {% else %}
-            <li><a href="{{ url_for('login') }}" style="color:white; font-size:110%"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-        {% endif %}
-      </ul>
-    </div>
-  </div>
 </nav>
 
 
 <div class="container-fluid text-center">
-  <div class="row content">
-    <div class="col-sm-2 sidenav">
-      <p><a href="{{ url_for('task_display') }}">Task Display</a></p>
-      <p><a href="{{ url_for('task_creation') }}">Task Creation</a></p>
-      <p><a href="{{ url_for('view_points') }}">View Points</a></p>
-      <p><a href="{{ url_for('modules') }}">Modules</a></p>
-    </div>
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <p><a href="{{ url_for('task_display') }}">Task Display</a></p>
+            <p><a href="{{ url_for('task_creation') }}">Task Creation</a></p>
+            <p><a href="{{ url_for('view_points') }}">View Points</a></p>
+            <p><a href="{{ url_for('modules') }}">Modules</a></p>
+        </div>
 
-    <div class="col-sm-10 text-left">
-        <hr>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-        <ul>
-            {% for message in messages %}
+        <div class="col-sm-10 text-left">
+            <hr>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+            <ul>
+                {% for message in messages %}
                 <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-        {% endif %}
-    {% endwith %}
-        <main>{% block content %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            {% endwith %}
+            <main>{% block content %}
 
-        {% endblock %}</main>
+                {% endblock %}
+            </main>
+        </div>
     </div>
-  </div>
 </div>
 
 
 <footer class="container-fluid text-center">
-  <p>BUS21</p>
+    <p>BUS21</p>
 </footer>
 
 </body>
