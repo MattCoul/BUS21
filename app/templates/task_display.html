@@ -53,14 +53,14 @@
            value="{{ request.args.get('name', '') }}"><br>
     <label>Show Completed Tasks</label>
     <select name="show_complete" onchange="this.form.submit()">
+        <option value="True" {% if show_complete=="True" or not show_complete %} selected {% endif %}>
+            Show All
+        </option>
         <option value="False" {% if show_complete=="False" %} selected {% endif %}>
             Hide Complete
         </option>
         <option value="Only" {% if show_complete=="Only" %} selected {% endif %}>
             Show Complete
-        </option>
-        <option value="True" {% if show_complete=="True" %} selected {% endif %}>
-            Show All
         </option>
     </select>
 </form>

@@ -48,7 +48,7 @@ def task_display():
         query = query.order_by(Task.due_date.asc())
 
     #Show or Hide Completed tasks logic
-    show_complete = request.args.get("show_complete")
+    show_complete = request.args.get("show_complete", "True")
     if show_complete == "False":
         query = query.filter(UserTasks.completed == False)
     elif show_complete == "Only":
@@ -238,6 +238,7 @@ def updating_task(task_id):
     modules_list = [(m.id, m.module_name) for m in Module.query.all()]
     TaskForm = create_task_form(modules_list=modules_list)
     form = TaskForm(obj=task)
+    form.module.data = task.module_id
 
     if form.validate_on_submit():
         task.name = form.name.data
